@@ -1,0 +1,25 @@
+---
+layout: post
+title: Blogging Like a Hacker
+---
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Austin M. Brown - Blog</title>  
+    <link rel="stylesheet" href="/assets/styles.css" type="text/css" media="screen" charset="utf-8">
+  </head>
+  <body>
+    <div id="header">
+      <img id="arrow" src="/assets/images/arrow.png">
+      <span id="gravatar-span">{{ 'thataustin@gmail.com'|gravatar }}</span>
+      <h2 id="title">Austin M. Brown</h2>
+      <img id="arrow-left" src="/assets/images/arrow-left.png">
+    </div>
+    <ul> 
+    {% for post in site.posts %}
+    <li><a href="{{post.url}}">{{post.title}}</a></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>
