@@ -1,3 +1,5 @@
+pygments: true
+
 gravatar:
   default_image: mm
   size: 150
