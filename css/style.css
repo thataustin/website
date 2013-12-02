@@ -1,7 +1,7 @@
 body {
   font-family: 'Nunito', sans-serif;
   color: #FAF3BC;
-  background: #420600 url('img/bg-texture.jpg') repeat;
+  background: #420567;
 }
 
 a {
@@ -61,24 +61,8 @@ ul.nav li a {
 }
 
 #copyright {
-  border-top: 8px solid #2A0400;
+  border-top: 8px solid #F80404;
   padding: 10px 0px;
   margin: 15px 0px;
   text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
