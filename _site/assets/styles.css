@@ -1,0 +1,36 @@
+@font-face {
+  font-family: GeometrySoftPro;
+  src: url("/assets/fonts/geometry_soft_pro-bold.otf") format("opentype");
+}
+body {
+  width: 86%;
+  margin: 20px auto;
+}
+
+#header {
+  height: 200px;
+  display:block;
+}
+
+.gravatar {
+  border: 2px #ccc solid;
+}
+
+#header img {
+  border-radius: 75px;
+  float: left;
+  background: url('assets/images/arrow.png');
+  vertical-align: middle;
+}
+
+
+#header #title {
+  font-size: 4.5em;
+  vertical-align: middle;
+  font-family: GeometrySoftPro,sans-serif;
+  float:left;
+}
+
+#content-area {
+  border: 2px #ccc solid;
+}
