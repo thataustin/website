@@ -1,0 +1,5 @@
+gravatar:
+  default_image: mm
+  size: 150
+  rating: g
+  secure: true
