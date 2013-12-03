@@ -1,3 +1,7 @@
+---
+layout: main
+title: A Javascript Quirk
+---
 # Javascript function forms
 
 For a lot of my relatively inexperienced javascript life, I've held miconceptions about the different ways to create functions.  This article is quite possibly useless since there are so many good articles on the topic, but I'm going to blog about it anyway...maybe because I'm in dire need of a way to pass the time until my new pool cue arrives in the mail.

@@ -9,15 +9,10 @@
   <body>
     <div id="header">
       <img id="arrow" src="/assets/images/arrow.png">
-      <span id="gravatar-span"><img class="gravatar" src="https://www.gravatar.com/avatar/5924b217b12018759fdf627b9aa5ad4a?s=150&r=g&d=mm"></img></span>
+      <span id="gravatar-span">{{ 'thataustin@gmail.com'|gravatar }}</span>
       <h2 id="title">Austin M. Brown</h2>
       <img id="arrow-left" src="/assets/images/arrow-left.png">
     </div>
-    <ul>
-  
-  <li><a href="/2011/10/22/javascript_function_forms.html">A Javascript Quirk</a></li>
-  
-</ul>
-
+    {{content}}
   </body>
 </html>
