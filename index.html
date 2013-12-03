@@ -2,8 +2,11 @@
 layout: main
 title: Blogging Like a Hacker
 ---
+<h2>Read my latest posts</h2>
 <ul>
   {% for post in site.posts %}
   <li><a href="{{post.url}}">{{post.title}}</a></li>
   {% endfor %}
 </ul>
+<h2>See what I'm up to on <a href="https://github.com/thataustin?tab=repositories">Github</a></h2>
+{% gist 7778287 %}
