@@ -34,3 +34,18 @@ body {
 #content-area {
   border: 2px #ccc solid;
 }
+
+a:link { 
+  font-weight: bold; 
+  text-decoration: none; 
+  color: #77A5DF;
+}
+a:visited { 
+  font-weight: bold; 
+  text-decoration: none; 
+  color: #77A5DF;
+}
+a:hover, a:focus, a:active { 
+  text-decoration: underline; 
+  color: #24528E;
+}
