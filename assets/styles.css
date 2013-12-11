@@ -18,17 +18,19 @@ body {
 
 #header img {
   border-radius: 75px;
-  float: left;
+  display:inline;
   background: url('assets/images/arrow.png');
   vertical-align: middle;
+  width: 13%;
 }
 
 
 #header #title {
-  font-size: 4.5em;
+  font-size: 6vw;
   vertical-align: middle;
   font-family: GeometrySoftPro,sans-serif;
-  float:left;
+  display:inline;
+  width: 60%;
 }
 
 #content-area {

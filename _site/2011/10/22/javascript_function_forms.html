@@ -8,38 +8,40 @@
   </head>
   <body>
     <div id="header">
-      <img id="arrow" src="/assets/images/arrow.png">
-      <span id="gravatar-span"><img class="gravatar" src="https://www.gravatar.com/avatar/5924b217b12018759fdf627b9aa5ad4a?s=150&r=g&d=mm"></img></span>
-      <h2 id="title">Austin M. Brown</h2>
-      <img id="arrow-left" src="/assets/images/arrow-left.png">
+      <div id="innerHeader">
+        <img class="arrow" id="arrow" src="/assets/images/arrow.png">
+        <span id="gravatar-span"><img class="gravatar" src="https://www.gravatar.com/avatar/5924b217b12018759fdf627b9aa5ad4a?s=150&r=g&d=mm"></img></span>
+        <h2 id="title">Austin M. Brown</h2>
+        <img class="arrow" id="arrow-left" src="/assets/images/arrow-left.png">
+      </div>
     </div>
-    <h1 id='javascript_function_forms'>Javascript function forms</h1>
+    <h1 id="javascript_function_forms">Javascript function forms</h1>
 
-<p>For a lot of my relatively inexperienced javascript life, I&#8217;ve held miconceptions about the different ways to create functions. This article is quite possibly useless since there are so many good articles on the topic, but I&#8217;m going to blog about it anyway&#8230;maybe because I&#8217;m in dire need of a way to pass the time until my new pool cue arrives in the mail.</p>
+<p>For a lot of my relatively inexperienced javascript life, I’ve held miconceptions about the different ways to create functions. This article is quite possibly useless since there are so many good articles on the topic, but I’m going to blog about it anyway…maybe because I’m in dire need of a way to pass the time until my new pool cue arrives in the mail.</p>
 
-<p>First off, I don&#8217;t remember where exactly I learned these things, so I&#8217;ll just give credit to <a href='http://www.crockford.com/'>Mr. Douglas Crockford</a>, the source of most all vanilla JS knowledge.</p>
+<p>First off, I don’t remember where exactly I learned these things, so I’ll just give credit to <a href="http://www.crockford.com/">Mr. Douglas Crockford</a>, the source of most all vanilla JS knowledge.</p>
 
 <p>I used to think that the following two lines of code were exactly the same in javascript:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>add</span><span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>b</span><span class='p'>)</span> <span class='cp'>{</span> <span class='na'>return</span> <span class='na'>a</span> <span class='o'>+</span> <span class='na'>b</span><span class='o'>;</span> <span class='cp'>}</span>
 <span class='lineno'>2</span> <span class='nx'>add</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>b</span><span class='p'>)</span> <span class='cp'>{</span> <span class='na'>return</span> <span class='na'>a</span> <span class='o'>+</span> <span class='na'>b</span><span class='o'>;</span> <span class='cp'>}</span>
 </code></pre></div>
-<p>and while it&#8217;s typically true enough for the CJP (common-man javascript programmer), I realized a while later they aren&#8217;t.</p>
+<p>and while it’s typically true enough for the CJP (common-man javascript programmer), I realized a while later they aren’t.</p>
 
-<p>First, it is important to note that &#8220;function&#8221; is a native type in javascript. Just as &#8216;number&#8217; and &#8216;string&#8217; are types, so is &#8216;function&#8217;. Having said this, a function can have properties. For example, a function object can have a name property and a length property. Let&#8217;s have look at an example:</p>
+<p>First, it is important to note that “function” is a native type in javascript. Just as ‘number’ and ‘string’ are types, so is ‘function’. Having said this, a function can have properties. For example, a function object can have a name property and a length property. Let’s have look at an example:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>say_hello</span><span class='p'>()</span> <span class='cp'>{</span> <span class='na'>alert</span><span class='o'>(</span><span class='s1'>&#39;hello&#39;</span><span class='o'>);</span> <span class='cp'>}</span>
 <span class='lineno'>2</span> 
 <span class='lineno'>3</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>name</span><span class='p'>);</span> <span class='c1'>// logs &#39;say_hello&#39;</span>
 <span class='lineno'>4</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>);</span> <span class='c1'>//logs 0</span>
 </code></pre></div>
-<p>Creating a function this way actually creates attributes for the say_hello variable called &#8220;name&#8221; and &#8220;length&#8221; (sidenote: the length attribute is actually the number of arguments called for by the function signature). Now, let&#8217;s look at how variable assignment works:</p>
+<p>Creating a function this way actually creates attributes for the say_hello variable called “name” and “length” (sidenote: the length attribute is actually the number of arguments called for by the function signature). Now, let’s look at how variable assignment works:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>say_hello</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>()</span> <span class='cp'>{</span> <span class='na'>alert</span><span class='o'>(</span><span class='s1'>&#39;hello&#39;</span><span class='o'>);</span> <span class='cp'>}</span>
 <span class='lineno'>2</span> 
 <span class='lineno'>3</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>name</span><span class='p'>);</span> <span class='c1'>//logs &#39;anonymous&#39;</span>
 <span class='lineno'>4</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>);</span> <span class='c1'>//logs 0</span>
 </code></pre></div>
-<p>Did you notice the function doesn&#8217;t have a name? That may not seem like a big deal, because you may think (as I often do) that say_hello(1, 2) will do the same thing when called regardless of how the function was formed.</p>
+<p>Did you notice the function doesn’t have a name? That may not seem like a big deal, because you may think (as I often do) that say_hello(1, 2) will do the same thing when called regardless of how the function was formed.</p>
 
-<p>But there are cases where naming a function one way over the other can actually cause you problems. What if you passed say_hello to a new scope? And what if say_hello, rather than being the simple function that is, had a recursive call inside of it? Let&#8217;s look at a very simple, contrived example that a situation in which we lose functionality one way vs the other.:</p>
+<p>But there are cases where naming a function one way over the other can actually cause you problems. What if you passed say_hello to a new scope? And what if say_hello, rather than being the simple function that is, had a recursive call inside of it? Let’s look at a very simple, contrived example that a situation in which we lose functionality one way vs the other.:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'> 1</span>   <span class='kd'>var</span> <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>number</span><span class='p'>)</span> <span class='cp'>{</span>
 <span class='lineno'> 2</span>       <span class='na'>if</span> <span class='o'>(</span><span class='na'>number</span> <span class='o'>&lt;=</span> <span class='m'>0</span><span class='o'>)</span> <span class='na'>return</span> <span class='s2'>&quot;You made it to zero&quot;</span><span class='o'>;</span>
 <span class='lineno'> 3</span>       <span class='na'>return</span> <span class='na'>countDownToZero</span><span class='o'>(</span><span class='na'>number</span><span class='o'>-</span><span class='m'>1</span><span class='o'>);</span>
@@ -53,7 +55,7 @@
 <span class='lineno'>11</span>   <span class='c1'>// ... the function we care about ended up in a var called temp instead of the original variable</span>
 <span class='lineno'>12</span>   <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>temp</span><span class='p'>(</span><span class='mi'>20</span><span class='p'>));</span> <span class='c1'>// TypeError: undefined is not a function</span>
 </code></pre></div>
-<p>So, this a totally contrived example, but since you&#8217;re reading this, keep going just a little further:</p>
+<p>So, this a totally contrived example, but since you’re reading this, keep going just a little further:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'> 1</span>   <span class='kd'>var</span> <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='nx'>localName</span> <span class='p'>(</span><span class='nx'>number</span><span class='p'>)</span> <span class='cp'>{</span>
 <span class='lineno'> 2</span>       <span class='na'>if</span> <span class='o'>(</span><span class='na'>number</span> <span class='o'>&lt;=</span> <span class='m'>0</span><span class='o'>)</span> <span class='na'>return</span> <span class='s2'>&quot;You made it to zero&quot;</span><span class='o'>;</span>
 <span class='lineno'> 3</span>       <span class='na'>return</span> <span class='na'>localName</span><span class='o'>(</span><span class='na'>number</span><span class='o'>-</span><span class='m'>1</span><span class='o'>);</span>
@@ -68,19 +70,19 @@
 <span class='lineno'>12</span>   <span class='c1'>// ... and again, the function we care about ended up in a var called temp instead of the original variable</span>
 <span class='lineno'>13</span>   <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>temp</span><span class='p'>(</span><span class='mi'>20</span><span class='p'>));</span> <span class='c1'>// &quot;You made it to zero&quot;</span>
 </code></pre></div>
-<p>Here, you can see how combining the two methods gives you something interesting. By naming the function itself, you have access to the function inside the function&#8217;s scope. This is very useful if you are going to pass the function outside of it&#8217;s original scope and still want to call it recursively.</p>
+<p>Here, you can see how combining the two methods gives you something interesting. By naming the function itself, you have access to the function inside the function’s scope. This is very useful if you are going to pass the function outside of it’s original scope and still want to call it recursively.</p>
 
 <p>So, all that to say, naming functions through assignment is different from naming them after the function keyword.</p>
 
-<p>For completeness sake, I should probably mention the other forms of creating the function object. First, there is the formal Function object. You should probably never use this, but here&#8217;s an example anyway:</p>
+<p>For completeness sake, I should probably mention the other forms of creating the function object. First, there is the formal Function object. You should probably never use this, but here’s an example anyway:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>say_hello</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nb'>Function</span><span class='p'>(</span><span class='s1'>&#39;string1′, &#39;</span><span class='nx'>string2</span><span class='err'>′</span><span class='p'>,</span> <span class='s1'>&#39;alert(&quot;Hello, I noticed you said: &quot; + string1 + string2);&#39;</span><span class='p'>);</span>
 <span class='lineno'>2</span> <span class='nx'>say_hello</span><span class='p'>(</span><span class='s1'>&#39;taco &#39;</span><span class='p'>,</span> <span class='s1'>&#39;sauce&#39;</span><span class='p'>);</span> <span class='c1'>// alerts &#39;Hello, I noticed you said: taco sauce&#39;</span>
 </code></pre></div>
-<p>Finally, there is the single-execution function, or as I like to call it, the “Fire in the hole!” function. To note, I&#8217;ve never called it that out-loud.</p>
+<p>Finally, there is the single-execution function, or as I like to call it, the “Fire in the hole!” function. To note, I’ve never called it that out-loud.</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='p'>(</span><span class='kd'>function</span> <span class='p'>()</span><span class='cp'>{</span> <span class='na'>alert</span><span class='o'>(</span><span class='s1'>&#39;hello&#39;</span><span class='o'>);</span> <span class='cp'>}</span><span class='p'>)();</span> <span class='c1'>// alerts &#39;hello&#39;</span>
 </code></pre></div>
-<p>The cool thing about that form is that you create, run and basically destroy that function all at once. You don&#8217;t have to worry about naming it poorly, because you don&#8217;t name it. Not much good for recursion, but that&#8217;s like saying it&#8217;s not much good for recursion – go back to the beginning of this sentence if that didn&#8217;t make sense.</p>
+<p>The cool thing about that form is that you create, run and basically destroy that function all at once. You don’t have to worry about naming it poorly, because you don’t name it. Not much good for recursion, but that’s like saying it’s not much good for recursion – go back to the beginning of this sentence if that didn’t make sense.</p>
 
-<p>Okay, so we have our 4 different ways of declaring functions. I hope you&#8217;ve learned something about how to create a function in javascript. Now, if you want to know how to create a useful function, you should learn about “this”. The word “this” is a tricky, tricky thing in javascript, and not something you want to screw up.</p>
+<p>Okay, so we have our 4 different ways of declaring functions. I hope you’ve learned something about how to create a function in javascript. Now, if you want to know how to create a useful function, you should learn about “this”. The word “this” is a tricky, tricky thing in javascript, and not something you want to screw up.</p>
   </body>
 </html>

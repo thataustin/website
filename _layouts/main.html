@@ -8,10 +8,12 @@
   </head>
   <body>
     <div id="header">
-      <img id="arrow" src="/assets/images/arrow.png">
-      <span id="gravatar-span">{{ 'thataustin@gmail.com'|gravatar }}</span>
-      <h2 id="title">Austin M. Brown</h2>
-      <img id="arrow-left" src="/assets/images/arrow-left.png">
+      <div id="innerHeader">
+        <img class="arrow" id="arrow" src="/assets/images/arrow.png">
+        <span id="gravatar-span">{{ 'thataustin@gmail.com'|gravatar }}</span>
+        <h2 id="title">Austin M. Brown</h2>
+        <img class="arrow" id="arrow-left" src="/assets/images/arrow-left.png">
+      </div>
     </div>
     {{content}}
   </body>
