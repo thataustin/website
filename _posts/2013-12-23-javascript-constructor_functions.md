@@ -74,7 +74,7 @@ That's pretty much all `prototype` does.  It's a place to put things that you wa
 Here's where I'm give my opinion.  `prototype` should __always__ be used for non-configurable attributes.  In the Student example, it's handy to be able to pass ("Greg", 29) to the function to configure the object (because name and age will change for every object), but the greet method doesn't need any configuring.  It's always the same code for all of the objects that the Student constructor function will create.  Therefore, I contend that greet should always be written with Student.prototype (as in the 2nd snippet) instead of this.greet (as in the 1st snippet).  My reasons are 2:
 
 1. Code is easier to read
-    * If you're reading through a new JS file, and there is a constructor function, it's easier to grasp what's going on in the code if you have all of the configurable code in the actual constructor and then all member functions listed down below in .prototype.[function_name] calls.
+    * If you're reading through a new JS file, and there is a constructor function, it's easier to grasp what's going on in the code if you have all of the configurable code in the actual constructor and then all member functions listed down below in .prototype.function_name calls.
 2. It prevents polluting the global namespace in the case that someone accidentally calls the constructor function without the `new` keyword.
     * If you were to call Student() directly, you would add age and name to the window object.  This is a use-case that hopefully will never happen, but in the case that someone doesn't know what the hell they're doing (it happens), then at least `.greet` won't get added to the global namespace as well.
 
