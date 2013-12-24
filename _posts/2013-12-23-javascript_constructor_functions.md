@@ -47,7 +47,9 @@ By using `new`, everything that has the keyword `this` before it becomes a membe
 
 ###My case
 
-Have a look at these snippets:
+First, have a look at these similar snippets of code
+
+#####Snippet 1
 
 {% highlight js+smarty linenos %}
 var Student = function(name, age) {
@@ -57,7 +59,7 @@ var Student = function(name, age) {
 }
 {% endhighlight %}
 
-and
+#####Snippet 2
 
 {% highlight js+smarty linenos %}
 var Student = function(name, age) {
@@ -67,6 +69,7 @@ var Student = function(name, age) {
 Student.prototype.greet = function() { return "Hello " + this.name + ", hope you are well"; };
 {% endhighlight %}
 
+<br>
 For both of them, this still holds true:
 
 {% highlight js+smarty linenos %}
@@ -77,16 +80,20 @@ greg.greet() == "Hello Greg, hope you are well";  // evaluates to true
 
 {% capture aside_text %}
 So, here's where you can learn what <code>prototype</code> is if you don't already know.
-In the second snippet, I'm using the <code>prototype</code> property of constructor functions to effectively add the rest of the <code>this</code> statements (in this case, just <code>this.greet</code>).
-That's pretty much all <code>prototype</code> does.  It's a place to put things that you want a constructor functions children (so to speak) to have when they are created.  And I realize that "child" is a convoluted term in computing, so humor me here.
+In the second snippet, I'm using the <code>prototype</code> property of constructor function to effectively add the rest of the <code>this</code> statements (in this case, just <code>this.greet</code>).
+That's pretty much all <code>prototype</code> does.  It's a place to put things that you want a constructor function's children (so to speak) to have when they are created.  Note that it is dynamically linked, though, so even if you add a method to prototype <b>after</b> a child is created, the child will still get the property.
 {% endcapture %}
 {% aside aside_text %}
 
-Here's where I'm give my opinion.  `prototype` should __always__ be used for non-configurable attributes.  In the Student example, it's handy to be able to pass ("Greg", 29) to the function to configure the name and age attributes because name and age will change for every object, but the greet method can and should be shared across all methods given that it doesn't need any instance-specific configuration.  Therefore, I contend that greet should always be written with Student.prototype (as in the 2nd snippet) instead of this.greet (as in the 1st snippet).  My reasons are 2:
+`<my_opinion>`
+
+`prototype` should __always__ be used for non-configurable attributes.  In the Student example, it's handy to be able to pass `("Greg", 29)` to the function to configure the name and age attributes because name and age will change for every object, but the greet method can and should be shared across all methods given that it doesn't need any instance-specific configuration.  Therefore, I contend that `greet` should always be written with `Student.prototype` (as in the 2nd snippet) instead of `this.greet` (as in the 1st snippet).  My reasons are 2:
 
 1. This pattern makes code easier to read
     * If you're reading through a new JS file, and there is a constructor function, it's easier to grasp what's going on in the code if you have all of the configurable code in the actual constructor and then all member functions listed down below in .prototype.function_name calls.
 2. It prevents polluting the global namespace in the case that someone accidentally calls the constructor function without the `new` keyword.
     * If you were to call Student() without the `new` keyword before it, you would add age and name to the window object.  This is a use-case that hopefully will never happen, but in the case that someone doesn't know what the hell they're doing (it happens), then at least `.greet` won't get added to the global namespace as well.
+
+`</my_opinion>`
 
 My point is simple, and it's probably not even worth mentioning, but I try to be intentional when I code in every way, so I did my best to come up with a case for how to form constructor functions.  Let me know what you think.
