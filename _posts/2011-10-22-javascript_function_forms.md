@@ -1,6 +1,9 @@
 ---
 layout: main
 title: A Javascript Quirk
+tags:
+  - javascript
+  - development
 ---
 # Javascript function forms
 

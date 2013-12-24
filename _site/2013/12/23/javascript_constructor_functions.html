@@ -24,7 +24,7 @@
 <ol>
 <li>Refer you to <a href="http://sporto.github.io/blog/2013/02/22/a-plain-english-guide-to-javascript-prototypes/">this link</a>
 <ul>
-<li>This is the best article I’ve seen on it as of this writing</li>
+<li>That’s the best article I’ve seen on it as of this writing</li>
 </ul>
 </li>
 
@@ -33,7 +33,7 @@
 
 <h3 id="recap">Recap</h3>
 
-<p>You inherit from other objects by doing this:</p>
+<p>You can inherit from other objects by doing this (but don’t do it this way; read to the end and you’ll see how to do it better):</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>Student</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>school</span><span class='o'>:</span> <span class='s2'>&quot;The Institution&quot;</span><span class='cp'>}</span><span class='p'>;</span>
 <span class='lineno'>2</span> <span class='kd'>var</span> <span class='nx'>greg</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>age</span><span class='o'>:</span> <span class='m'>34</span><span class='cp'>}</span><span class='p'>;</span>
 <span class='lineno'>3</span> <span class='nx'>greg</span><span class='p'>.</span><span class='nx'>__proto__</span> <span class='o'>=</span> <span class='nx'>Student</span><span class='p'>;</span>
@@ -42,9 +42,9 @@
 </code></pre></div>
 <p>Voila, you have created an object <code>greg</code> whose prototype chain includes an object <code>Student</code> such that any reference to attributes not assigned directly to greg (eg, <code>school</code>) will be searched for in <code>Students</code> because it’s part of <code>greg</code>s prototype chain.</p>
 
-<p>There are other, better ways to do this (see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>) since <code>__proto__</code> isn’t supported everywhere, but <code>__proto__</code> gives you the gist.</p>
+<p>There are other, better ways to do this almost this exact thing (see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>) since <code>__proto__</code> isn’t supported everywhere, but <code>__proto__</code> gives you the gist.</p>
 
-<p>Furthermore, there is another way to create objects with a prototype chain that includes another object. It’s called the constructor function. In essence, you use the <code>new</code> as such:</p>
+<p>Perhaps a more popular way to do this is to use what we call a <strong>constructor function</strong>. In essence, you use the <code>new</code> keyword as such:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>Student</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>name</span><span class='p'>,</span> <span class='nx'>age</span><span class='p'>)</span> <span class='cp'>{</span>
 <span class='lineno'>2</span>   <span class='na'>this</span><span class='o'>.</span><span class='na'>name</span> <span class='o'>=</span> <span class='na'>name</span><span class='o'>;</span>
 <span class='lineno'>3</span>   <span class='na'>this</span><span class='o'>.</span><span class='na'>age</span> <span class='o'>=</span> <span class='na'>age</span><span class='o'>;</span>
@@ -54,11 +54,9 @@
 <span class='lineno'>7</span> <span class='nx'>greg</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>Student</span><span class='p'>(</span><span class='s2'>&quot;Greg&quot;</span><span class='p'>,</span> <span class='mi'>29</span><span class='p'>);</span>
 <span class='lineno'>8</span> <span class='nx'>greg</span><span class='p'>.</span><span class='nx'>greet</span><span class='p'>()</span> <span class='o'>==</span> <span class='s2'>&quot;Hello Greg, hope you are well&quot;</span><span class='p'>;</span>
 </code></pre></div>
-<p>By using new, everything that had <code>this</code> before it becomes a member of the new object (<code>greg</code> in this case)</p>
+<p>By using <code>new</code>, everything that has the keyword <code>this</code> before it becomes a member of the new object (<code>greg</code> in this case)</p>
 
-<p>Now, there is actually a different way to effectively accomplish the same thing, but let’s move on to the next subtitle of this article, so that I can start making some of these my own thoughts.</p>
-
-<h3 id="my_point">My point</h3>
+<h3 id="my_case">My case</h3>
 
 <p>Have a look at these snippets:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>Student</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>name</span><span class='p'>,</span> <span class='nx'>age</span><span class='p'>)</span> <span class='cp'>{</span>
@@ -77,9 +75,11 @@
 <p>For both of them, this still holds true:</p>
 <div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>greg</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>Student</span><span class='p'>(</span><span class='s2'>&quot;Greg&quot;</span><span class='p'>,</span> <span class='mi'>29</span><span class='p'>);</span>
 <span class='lineno'>2</span> <span class='nx'>greg</span><span class='p'>.</span><span class='nx'>greet</span><span class='p'>()</span> <span class='o'>==</span> <span class='s2'>&quot;Hello Greg, hope you are well&quot;</span><span class='p'>;</span>  <span class='c1'>// evaluates to true</span>
-</code></pre></div>
-<p>So, here’s where you can learn what <code>prototype</code> is if you don’t already know. In the second snippet, I’m using the <code>prototype</code> property of constructor functions to effectively add the rest of the <code>this</code> statements (in this case, just <code>this.greet</code>). That’s pretty much all <code>prototype</code> does. It’s a place to put things that you want a constructor functions children (so to speak) to have when they are created. And I realize that “child” is a comvoluted term in computing, so humor me here.</p>
-
+</code></pre></div><aside style='padding: 2%; color: rgb(0, 128, 128); margin:auto 5%; background-color: rgb(240, 255, 255);'>
+So, here's where you can learn what <code>prototype</code> is if you don't already know.
+In the second snippet, I'm using the <code>prototype</code> property of constructor functions to effectively add the rest of the <code>this</code> statements (in this case, just <code>this.greet</code>).
+That's pretty much all <code>prototype</code> does.  It's a place to put things that you want a constructor functions children (so to speak) to have when they are created.  And I realize that "child" is a convoluted term in computing, so humor me here.
+</aside>
 <p>Here’s where I’m give my opinion. <code>prototype</code> should <strong>always</strong> be used for non-configurable attributes. In the Student example, it’s handy to be able to pass (“Greg”, 29) to the function to configure the name and age attributes because name and age will change for every object, but the greet method can and should be shared across all methods given that it doesn’t need any instance-specific configuration. Therefore, I contend that greet should always be written with Student.prototype (as in the 2nd snippet) instead of this.greet (as in the 1st snippet). My reasons are 2:</p>
 
 <ol>
