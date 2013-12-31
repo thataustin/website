@@ -84,7 +84,9 @@ In the second snippet, I'm using the <code>prototype</code> property of construc
 That's pretty much all <code>prototype</code> does.  It's a place to put things that you want a constructor function's children (so to speak) to have when they are created.  Note that it is dynamically linked, though, so even if you add a method to prototype <b>after</b> a child is created, the child will still get the property.
 {% endcapture %}
 {% aside aside_text %}
+(See [here]({% post_url 2013-12-30-javascript_prototype %})) for more info on prototype.
 
+Ok, now to what I wanted to get to...
 `<my_opinion>`
 
 `prototype` should __always__ be used for non-configurable attributes.  In the Student example, it's handy to be able to pass `("Greg", 29)` to the function to configure the name and age attributes because name and age will change for every object, but the greet method can and should be shared across all methods given that it doesn't need any instance-specific configuration.  Therefore, I contend that `greet` should always be written with `Student.prototype` (as in the 2nd snippet) instead of `this.greet` (as in the 1st snippet).  My reasons are 2:

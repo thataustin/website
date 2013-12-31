@@ -5,7 +5,7 @@ tags:
   - javascript
   - development
 ---
-# <center>Javascript's `.prototype`</center>
+# <center>Javascript's .prototype</center>
 __What is `.prototype` in javascript?__ There are a million articles on this, but I have a way I think of it that you may like:
 #### <center>A kid.  And the kid's backpack.  Where the kid can create magical duplicates of the backpack.</center>
 Let's ease into this with a fairly irrelevant bit of code:
