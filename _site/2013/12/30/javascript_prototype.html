@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Austin M. Brown - Blog</title>  
+    <link rel="stylesheet" href="/assets/styles.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/assets/syntax.css" type="text/css" media="screen" charset="utf-8">
+  </head>
+  <body>
+    <div id="header">
+      <div id="innerHeader">
+        <img class="arrow" id="arrow" src="/assets/images/arrow.png">
+        <span id="gravatar-span"><img class="gravatar" src="https://www.gravatar.com/avatar/5924b217b12018759fdf627b9aa5ad4a?s=150&r=g&d=mm"></img></span>
+        <h2 id="title">Austin M. Brown</h2>
+        <img class="arrow" id="arrow-left" src="/assets/images/arrow-left.png">
+      </div>
+    </div>
+    <h1 id=""><center>Javascript's `.prototype`</center></h1>
+
+<p><strong>What is <code>.prototype</code> in javascript?</strong> There are a million articles on this, but I have a way I think of it that you may like:</p>
+
+<h4 id="_2"><center>A kid.  And the kid's backpack.  Where the kid can create magical duplicates of the backpack.</center></h4>
+
+<p>Let’s ease into this with a fairly irrelevant bit of code:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>kid</span> <span class='o'>=</span> <span class='cp'>{}</span><span class='p'>;</span>
+<span class='lineno'>2</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>glasses</span> <span class='o'>=</span> <span class='kc'>true</span><span class='p'>;</span>
+<span class='lineno'>3</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>height</span> <span class='o'>=</span> <span class='mi'>120</span><span class='p'>;</span>
+<span class='lineno'>4</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>funny</span> <span class='o'>=</span> <span class='s2'>&quot;sometimes&quot;</span><span class='p'>;</span>
+<span class='lineno'>5</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>backpack</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>books</span><span class='o'>:</span> <span class='m'>3</span><span class='o'>,</span> <span class='na'>pencils</span><span class='o'>:</span> <span class='m'>4</span><span class='cp'>}</span><span class='p'>;</span>
+</code></pre></div>
+<p>So, we have a kid with glasses, that’s just under 4’ tall (120cm ~ 4’) and has a backpack with some stuff in it.</p>
+
+<p>Now, in my analogy, the <strong><code>kid</code></strong> represents a <strong><code>function</code></strong> in javascript, and the <strong><code>backpack</code></strong> represents <strong><code>.prototype</code></strong>. I didn’t setup that last piece of code with a function because I was just easing you into my analogy with the simplest JS possible. Keep reading and you’ll see how kids (ie, functions) have magical backpacks that can be duplicated.</p>
+
+<p><strong><em>There are always rules to magic</em></strong> - So the kid can duplicate the backpack and give the duplicate away, but magic always comes with a price (or rules of engagement, in this case):</p>
+
+<ul>
+<li>The duplicates start out with the exact same things as the original.
+<ul>
+<li>Seriously, the EXACT same things
+<ul>
+<li>I mean, if you break a pencil in the original backpack, you break that same pencil in all the duplicates, because the pencil in the duplicate is actually the same as the pencil in the original
+<ul>
+<li>But vice-versa isn’t true… you can’t break a pencil in a duplicate and expect it to be broken in the original…just doesn’t work that way.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p>Sound like something magical from a Dr. Who plot, doesn’t it? That’s because javascript is magical.</p>
+
+<p>Now, in the code above, I chose an object literal (the <strong><code>{}</code></strong>’s) to represent the kid. That makes sense, kids are nouns in the real world, so we can use objects to represent them in javascript.</p>
+
+<p>But there’s more than one type of object. Functions are objects, too, right?</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>kid</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='cp'>{}</span><span class='p'>;</span>
+<span class='lineno'>2</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>glasses</span> <span class='o'>=</span> <span class='kc'>true</span><span class='p'>;</span>
+<span class='lineno'>3</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>height</span> <span class='o'>=</span> <span class='mi'>120</span><span class='p'>;</span>
+<span class='lineno'>4</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>funny</span> <span class='o'>=</span> <span class='s2'>&quot;sometimes&quot;</span><span class='p'>;</span>
+<span class='lineno'>5</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>backpack</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>books</span><span class='o'>:</span> <span class='m'>3</span><span class='o'>,</span> <span class='na'>pencils</span><span class='o'>:</span> <span class='m'>4</span><span class='cp'>}</span><span class='p'>;</span>
+</code></pre></div>
+<p>So, we used a <strong><code>function</code></strong> object to attach all of the kids stuff to. You can still access <strong><code>kid.height</code></strong>, but kid is actually a function object in and of itself. So, how do we go about duplicating the backpack (ie, the function’s <strong><code>prototype</code></strong>) and magically passing it around like I mentioned above?</p>
+
+<p>Lookit:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'> 1</span> <span class='kd'>var</span> <span class='nx'>kid</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='cp'>{}</span><span class='p'>;</span>
+<span class='lineno'> 2</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>glasses</span> <span class='o'>=</span> <span class='kc'>true</span><span class='p'>;</span>
+<span class='lineno'> 3</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>height</span> <span class='o'>=</span> <span class='mi'>120</span><span class='p'>;</span>
+<span class='lineno'> 4</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>funny</span> <span class='o'>=</span> <span class='s2'>&quot;sometimes&quot;</span><span class='p'>;</span>
+<span class='lineno'> 5</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>prototype</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>books</span><span class='o'>:</span> <span class='m'>3</span><span class='o'>,</span> <span class='na'>pencils</span><span class='o'>:</span> <span class='m'>4</span><span class='cp'>}</span><span class='p'>;</span>
+<span class='lineno'> 6</span> 
+<span class='lineno'> 7</span> <span class='kd'>var</span> <span class='nx'>duplicated_packpack</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>kid</span><span class='p'>();</span>
+<span class='lineno'> 8</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>duplicated_packpack</span><span class='p'>.</span><span class='nx'>books</span><span class='p'>);</span> <span class='c1'>// 3</span>
+<span class='lineno'> 9</span> 
+<span class='lineno'>10</span> <span class='nx'>kid</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>books</span> <span class='o'>=</span> <span class='mi'>100</span><span class='p'>;</span>
+<span class='lineno'>11</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>duplicated_packpack</span><span class='p'>.</span><span class='nx'>books</span><span class='p'>);</span> <span class='c1'>// 100</span>
+</code></pre></div>
+<p>WHAT THE HELL? Hey, don’t use words like that around kids. But also, let me explain what’s going on here</p>
+
+<p>The <strong><code>new</code></strong> keyword in javascript is something that you can put before <strong><code>functions</code></strong> (and only functions) to create a new object that <strong><code>inherits</code></strong> from the functions <strong><code>prototype</code></strong> property.</p>
+
+<p><strong>Let me re-play this in slow motion for you:</strong></p>
+
+<p>If you create a function, you can also create an object from it if you use the <strong><code>new</code></strong> keyword.</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>func</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>()</span> <span class='cp'>{}</span>
+<span class='lineno'>2</span> <span class='kd'>var</span> <span class='nx'>obj</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>func</span><span class='p'>();</span>
+</code></pre></div>
+<p>And the object (<strong><code>obj</code></strong> in this case) magically inherits everything from the function’s prototype (<strong><code>func.prototype</code></strong> in this case):</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span> <span class='o'>=</span> <span class='s1'>&#39;yellow&#39;</span><span class='p'>;</span>
+<span class='lineno'>2</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// yellow</span>
+</code></pre></div>
+<p>So, why did I choose a kid and a backpack to represent this relationship?</p>
+
+<p>Well, if you consider the last example I just typed out (with <strong><code>func</code></strong> and <strong><code>obj</code></strong>), <strong><code>func</code></strong> isn’t the thing being duplicated. That is, the kid isn’t being duplicated. You can assign things to <strong><code>func</code></strong> that don’t get assigned to <strong><code>obj</code></strong>. For example:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='nx'>func</span><span class='p'>.</span><span class='nx'>color</span> <span class='o'>=</span> <span class='s1'>&#39;blue&#39;</span><span class='p'>;</span>
+<span class='lineno'>2</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// yellow</span>
+</code></pre></div>
+<p><strong><code>obj</code></strong> ONLY inherits the things that are in <strong><code>func.prorotype</code></strong>. <strong><code>prototype</code></strong> is like a backpack that’s attached to <strong><code>func</code></strong> and it’s the only part of func that gets duplicated, kind of like how a kid has a backpack, and the backpack gets duplicated, but the kid doesn’t.</p>
+
+<h3 id="a_caveat_to_the_magical_backpack">A Caveat to the magical backpack</h3>
+
+<p>Back to our analogy of kids and backpacks…the astute reader will notice that I said duplicate backpacks (ie, objects that inherit from the function’s prototype), START OUT WITH the same things as the original backpack. Here’s how they can change:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>func</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>()</span> <span class='cp'>{}</span>
+<span class='lineno'>2</span> <span class='kd'>var</span> <span class='nx'>obj</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>func</span><span class='p'>();</span>
+<span class='lineno'>3</span> 
+<span class='lineno'>4</span> <span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span> <span class='o'>=</span> <span class='s1'>&#39;yellow&#39;</span><span class='p'>;</span>
+<span class='lineno'>5</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// yellow</span>
+<span class='lineno'>6</span> 
+<span class='lineno'>7</span> <span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span> <span class='o'>=</span> <span class='s1'>&#39;blue&#39;</span><span class='p'>;</span>
+<span class='lineno'>8</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// blue</span>
+<span class='lineno'>9</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// yellow</span>
+</code></pre></div>
+<p>If you actually overwrite a property that is in the original backpack, then it no longer inherits from the original. And in fact, you didn’t overwrite the property from the original backpack, you just assigned a property to the new backpack and broke the link to the old backpack for that property.</p>
+
+<p>The way to think about this is that you can’t reach into one of the duplicate backpacks and change something there and expect it to change things in the original backpack. That wouldn’t be fair to the kid, after all.</p>
+
+<h4 id="but_i_also_just_lied">BUT, I also just lied</h4>
+
+<p>There is a case where you can change things in the original backpack from a duplicate backpack…here’s how:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>func</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>()</span> <span class='cp'>{}</span>
+<span class='lineno'>2</span> <span class='kd'>var</span> <span class='nx'>obj</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>func</span><span class='p'>();</span>
+<span class='lineno'>3</span> 
+<span class='lineno'>4</span> <span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span> <span class='o'>=</span> <span class='cp'>{</span><span class='nf'>value</span><span class='o'>:</span> <span class='s2'>&quot;yellow&quot;</span><span class='cp'>}</span><span class='p'>;</span>
+<span class='lineno'>5</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>.</span><span class='nx'>value</span><span class='p'>);</span> <span class='c1'>// yellow</span>
+<span class='lineno'>6</span> 
+<span class='lineno'>7</span> <span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>.</span><span class='nx'>value</span> <span class='o'>=</span> <span class='s1'>&#39;blue&#39;</span><span class='p'>;</span>
+<span class='lineno'>8</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// blue</span>
+<span class='lineno'>9</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// blue</span>
+</code></pre></div>
+<p>We’re inheriting the <strong><code>color</code></strong> object from func’s prototype (backpack if you’re following the analogy). Since we’re not trying to overwrite the entire <strong><code>color</code></strong> property but rather just <strong><code>color.value</code></strong>, javascript keeps our tie to <strong><code>color</code></strong> and actually updates <strong><code>func.prototype.color.value</code></strong>. Now, if we had overridden <strong><code>obj.color</code></strong> entireley, it would have cut our tie to <strong><code>func.prototype.color</code></strong> entirely, and we would have created our own property for our backpack rather than be connected to the original.</p>
+
+<p>This is because javascript always passes objects by reference, and not by value. If that statement doesn’t make sense, google it to find out more.</p>
+
+<p>So functions are like kids, and their prototype property is like a magical duplicateable backpack…hope that makes perfect sense to you now :)</p>
+  </body>
+</html>
