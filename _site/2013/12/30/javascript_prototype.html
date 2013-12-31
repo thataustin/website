@@ -111,7 +111,7 @@
 <span class='lineno'>8</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>obj</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// blue</span>
 <span class='lineno'>9</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>func</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>color</span><span class='p'>);</span> <span class='c1'>// yellow</span>
 </code></pre></div>
-<p>If you actually overwrite a property that is in the original backpack, then it no longer inherits from the original. And in fact, you didn’t overwrite the property from the original backpack, you just assigned a property to the new backpack and broke the link to the old backpack for that property.</p>
+<p>If you actually overwrite a property in a duplicate backpack, then it no longer inherits from the original. In fact, you actually cut that property’s ties to the original backpack (func.prototype) and made your own local copy of the property for your otherwise dup’d object.</p>
 
 <p>The way to think about this is that you can’t reach into one of the duplicate backpacks and change something there and expect it to change things in the original backpack. That wouldn’t be fair to the kid, after all.</p>
 

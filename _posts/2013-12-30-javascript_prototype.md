@@ -104,7 +104,7 @@ console.log(obj.color); // blue
 console.log(func.prototype.color); // yellow
 {% endhighlight %}
 
-If you actually overwrite a property that is in the original backpack, then it no longer inherits from the original.  And in fact, you didn't overwrite the property from the original backpack, you just assigned a property to the new backpack and broke the link to the old backpack for that property.
+If you actually overwrite a property in a duplicate backpack, then it no longer inherits from the original.  In fact, you actually cut that property's ties to the original backpack (func.prototype) and made your own local copy of the property for your otherwise dup'd object.
 
 The way to think about this is that you can't reach into one of the duplicate backpacks and change something there and expect it to change things in the original backpack.  That wouldn't be fair to the kid, after all.  
 
