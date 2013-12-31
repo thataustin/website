@@ -87,7 +87,7 @@ func.color = 'blue';
 console.log(obj.color); // yellow
 {% endhighlight %}
 
-**`obj`** ONLY inherits the things that are in **`func.prorotype`**.  **`prototype`** is like a backpack that's attached to **`func`** and it's the only part of func that gets duplicated, kind of like how a kid has a backpack, and the backpack gets duplicated, but the kid doesn't.
+**`obj`** ONLY inherits the things that are in **`func.prototype`**.  **`prototype`** is like a backpack that's attached to **`func`** and it's the only part of func that gets duplicated, kind of like how a kid has a backpack, and the backpack gets duplicated, but the kid doesn't.
 
 ###A Caveat to the magical backpack
 Back to our analogy of kids and backpacks...the astute reader will notice that I said duplicate backpacks (ie, objects that inherit from the function's prototype), START OUT WITH the same things as the original backpack.  Here's how they can change:
