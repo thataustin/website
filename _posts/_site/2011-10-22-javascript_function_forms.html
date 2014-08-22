@@ -1,0 +1,64 @@
+<h1 id="javascript_function_forms">Javascript function forms</h1>
+
+<p>For a lot of my relatively inexperienced javascript life, I’ve held miconceptions about the different ways to create functions. I realize there are already many good articles on this topic, but I’m going to blog about it anyway…most likely it’s that I’m in dire need of a way to pass the time until my new pool cue arrives in the mail.</p>
+
+<p>I used to think that the following two lines of code were exactly the same in javascript:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>add</span><span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>b</span><span class='p'>)</span> <span class='cp'>{</span> <span class='na'>return</span> <span class='na'>a</span> <span class='o'>+</span> <span class='na'>b</span><span class='o'>;</span> <span class='cp'>}</span>
+<span class='lineno'>2</span> <span class='nx'>add</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>b</span><span class='p'>)</span> <span class='cp'>{</span> <span class='na'>return</span> <span class='na'>a</span> <span class='o'>+</span> <span class='na'>b</span><span class='o'>;</span> <span class='cp'>}</span>
+</code></pre></div>
+<p>and while the difference between the two may be irrelevant to the CJP (Common-man Javascript Programmer), I know that the type of person that reads 1337 posts like these is <em>no</em> CJP.</p>
+
+<p>Before diving into code, it is important to note that ‘function’ is a native type in javascript. Just as ‘number’ and ‘string’ are types, so is ‘function’. Having said this, a function can have properties. For example, a function object can have a name property and a length property.</p>
+
+<p>Okay, let’s look at some of code:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>say_hello</span><span class='p'>()</span> <span class='cp'>{</span> <span class='na'>alert</span><span class='o'>(</span><span class='s1'>&#39;hello&#39;</span><span class='o'>);</span> <span class='cp'>}</span>
+<span class='lineno'>2</span> 
+<span class='lineno'>3</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>name</span><span class='p'>);</span> <span class='c1'>// logs &#39;say_hello&#39;</span>
+<span class='lineno'>4</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>);</span> <span class='c1'>//logs 0</span>
+</code></pre></div>
+<p>Creating a function this way actually creates attributes for the say_hello variable called “name” and “length” (sidenote: the length attribute is actually the number of arguments called for by the function signature). Now, let’s look at how variable assignment works:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'>1</span> <span class='kd'>var</span> <span class='nx'>say_hello</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>()</span> <span class='cp'>{</span> <span class='na'>alert</span><span class='o'>(</span><span class='s1'>&#39;hello&#39;</span><span class='o'>);</span> <span class='cp'>}</span>
+<span class='lineno'>2</span> 
+<span class='lineno'>3</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>name</span><span class='p'>);</span> <span class='c1'>//logs undefined</span>
+<span class='lineno'>4</span> <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>say_hello</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>);</span> <span class='c1'>//logs undefined</span>
+</code></pre></div>
+<p>Did you notice the function doesn’t have a name? That may not seem like a big deal, because you may think (as I often do) that say_hello(1, 2) will do the same thing when called regardless of how the function was formed.</p>
+
+<p>But there are cases where naming a function one way over the other can actually cause you problems. What if you passed say_hello to a new scope? And what if say_hello, rather than being the simple function that is, had a recursive call inside of it? Let’s look at a very simple, contrived example that a situation in which we lose functionality one way vs the other.:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'> 1</span>   <span class='kd'>var</span> <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>number</span><span class='p'>)</span> <span class='cp'>{</span>
+<span class='lineno'> 2</span>       <span class='na'>if</span> <span class='o'>(</span><span class='na'>number</span> <span class='o'>&lt;=</span> <span class='m'>0</span><span class='o'>)</span> <span class='na'>return</span> <span class='s2'>&quot;You made it to zero&quot;</span><span class='o'>;</span>
+<span class='lineno'> 3</span>       <span class='na'>return</span> <span class='na'>countDownToZero</span><span class='o'>(</span><span class='na'>number</span><span class='o'>-</span><span class='m'>1</span><span class='o'>);</span>
+<span class='lineno'> 4</span>   <span class='cp'>}</span><span class='p'>;</span>
+<span class='lineno'> 5</span> 
+<span class='lineno'> 6</span>   <span class='c1'>// in a real situation, you&#39;d probably have a lot of</span>
+<span class='lineno'> 7</span>   <span class='c1'>// code here, which is why you&#39;d obliterate your reference</span>
+<span class='lineno'> 8</span> 
+<span class='lineno'> 9</span>   <span class='kd'>var</span> <span class='nx'>temp</span> <span class='o'>=</span> <span class='nx'>countDownToZero</span><span class='p'>;</span>
+<span class='lineno'>10</span>   <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kc'>undefined</span><span class='p'>;</span>
+<span class='lineno'>11</span> 
+<span class='lineno'>12</span>   <span class='c1'>// the function we care about ended up in a var called</span>
+<span class='lineno'>13</span>   <span class='c1'>// temp instead of the original variable</span>
+<span class='lineno'>14</span>   <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>temp</span><span class='p'>(</span><span class='mi'>20</span><span class='p'>));</span> <span class='c1'>// TypeError: undefined is not a function</span>
+</code></pre></div>
+<p>Now have a look at what happens when we name the function:</p>
+<div class='highlight'><pre><code class='js+smarty'><span class='lineno'> 1</span>   <span class='kd'>var</span> <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='nx'>localName</span> <span class='p'>(</span><span class='nx'>number</span><span class='p'>)</span> <span class='cp'>{</span>
+<span class='lineno'> 2</span>       <span class='na'>if</span> <span class='o'>(</span><span class='na'>number</span> <span class='o'>&lt;=</span> <span class='m'>0</span><span class='o'>)</span> <span class='na'>return</span> <span class='s2'>&quot;You made it to zero&quot;</span><span class='o'>;</span>
+<span class='lineno'> 3</span>       <span class='na'>return</span> <span class='na'>localName</span><span class='o'>(</span><span class='na'>number</span><span class='o'>-</span><span class='m'>1</span><span class='o'>);</span>
+<span class='lineno'> 4</span>   <span class='cp'>}</span><span class='p'>;</span>
+<span class='lineno'> 5</span> 
+<span class='lineno'> 6</span>   <span class='c1'>// in a real situation, you&#39;d probably have a lot of</span>
+<span class='lineno'> 7</span>   <span class='c1'>// code here, which is why you&#39;d obliterate your reference</span>
+<span class='lineno'> 8</span> 
+<span class='lineno'> 9</span>   <span class='kd'>var</span> <span class='nx'>temp</span> <span class='o'>=</span> <span class='nx'>countDownToZero</span><span class='p'>;</span>
+<span class='lineno'>10</span>   <span class='nx'>countDownToZero</span> <span class='o'>=</span> <span class='kc'>undefined</span><span class='p'>;</span>
+<span class='lineno'>11</span>   <span class='nx'>localName</span> <span class='o'>=</span> <span class='kc'>undefined</span><span class='p'>;</span> <span class='c1'>// sanity check, unset localName as well</span>
+<span class='lineno'>12</span> 
+<span class='lineno'>13</span>   <span class='c1'>// again, the function we care about ended up in</span>
+<span class='lineno'>14</span>   <span class='c1'>// a var called temp instead of the original variable</span>
+<span class='lineno'>15</span>   <span class='nx'>console</span><span class='p'>.</span><span class='nx'>log</span><span class='p'>(</span><span class='nx'>temp</span><span class='p'>(</span><span class='mi'>20</span><span class='p'>));</span> <span class='c1'>// &quot;You made it to zero&quot;</span>
+</code></pre></div>
+<p>Here, you can see how naming the function gives you some safety. By naming it, you have access to the function inside the function’s scope. This is very useful if you are going to pass the function outside of it’s original scope and still want to call it recursively.</p>
+
+<p>All that to say, naming functions through assignment is different from naming them after the function keyword.</p>
+
+<p><strong>Credits</strong> Actually, I don’t remember where exactly I learned these things, so I’ll just give credit to <a href="http://www.crockford.com/">Mr. Douglas Crockford</a>, the source of most all vanilla JS knowledge.</p>
